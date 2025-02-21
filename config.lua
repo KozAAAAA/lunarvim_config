@@ -1,10 +1,6 @@
--- Read the docs: https://www.lunarvim.org/docs/configuration
--- Video Tutorials: https://www.youtube.com/watch?v=sFA9kX-Ud_c&list=PLhoH5vyxr6QqGu0i7tt_XoVK9v-KvZ3m6
--- Forum: https://www.reddit.com/r/lunarvim/
--- Discord: https://discord.com/invite/Xb9B4Ny
-
--- General
 lvim.colorscheme = 'onedarker'
+
+vim.opt.relativenumber = true
 
 -- Plugins
 lvim.plugins = {
@@ -22,6 +18,9 @@ lvim.plugins = {
       })
     end,
   },
+  {
+    'lambdalisue/suda.vim',
+  },
 }
 
 -- Fix multiple offset_encoding not supported yet
@@ -31,8 +30,11 @@ capabilities.offsetEncoding = { "utf-16" }
 local opts = { capabilities = capabilities }
 require("lvim.lsp.manager").setup("clangd", opts)
 
--- Treat .h files as C
-vim.api.nvim_command('autocmd BufNewFile,BufRead *.h set filetype=c')
+-- Set tab width to 2
+vim.api.nvim_command('autocmd FileType c,cpp setlocal tabstop=2 shiftwidth=2 expandtab')
 
--- Set tab width to 4
-vim.api.nvim_command('autocmd FileType c,cpp setlocal tabstop=4 shiftwidth=4 expandtab')
+-- Indentation to 2 spaces
+vim.api.nvim_command('autocmd FileType c,cpp set formatprg=clang-format | set equalprg=clang-format')
+
+-- Suda save with wq
+vim.g.suda_smart_edit = 1
